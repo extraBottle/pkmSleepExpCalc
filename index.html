@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>포켓몬 슬립 exp 계산기</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <h1>포켓몬 슬립 exp 계산기</h1>
+        <fieldset id= "userInput">
+            <legend><strong>여기에 입력하세요:</strong></legend>
+            <p>
+                <label>현재 레벨 :
+                    <input id="level" name="level" type= "number" min = "1" max = "99" step = "1" value = "1" autofocus>
+                </label> (1부터 99사이 숫자를 입력하세요)
+            </p>
+            <p>
+                <label>남은 경험치:
+                    <input id="leftExp" name="leftExp" type= "number" min = "1" max = "9999" step = "1" value = "123">
+                </label>
+            </p>
+            <p>
+                <label>목표 레벨 :
+                    <input id="targetLevel" name="targetLevel" type= "number" min = "2" max = "100" step = "1" value = "100">
+                </label> (2부터 100사이 숫자를 입력하세요)
+            </p>
+            <input type="submit" value="필요 경험치량 계산하기">
+        </fieldset>
+    </body>
+</html>
