@@ -8,29 +8,75 @@
     <body>
         <h1>포켓몬 슬립 exp 계산기</h1>
         <p>
-        <h3>@@현재 레벨50까지 경험치만 계산 가능합니다@@</h3>
+        <h4>@@현재 <span style="color: brown;">레벨50까지</span> 경험치만 계산 가능합니다@@</h4>
         </p>
+        <fieldset id="chooseVer">
+            <legend><strong>계산기 버전:</strong></legend>
+            <p><input name="version" id="lightVer" type="radio" value="light" checked>
+                <label for="lightVer">라이트</label>&nbsp;&nbsp;&nbsp;
+                <input name="version" id="proVer" type="radio" value="pro">
+                <label for="proVer">프로</label></p>
+        </fieldset>
+        <br><br>
+        <form>
         <fieldset id= "userInput">
             <legend><strong>여기에 입력하세요:</strong></legend>
-            <p>
-                <label>현재 레벨 :
-                    <input id="currentLevel" name="level" type= "number" min = "1" max = "99" step = "1" value = "1" autofocus>
-                </label> (1부터 99사이 숫자를 입력하세요)
+            <p class="proCalc">
+                <label>포켓몬 종류:
+                    <select name="600poke" id="600poke">
+                        <option selected>애버라스 계열</option>
+                        <option >애버라스가 아님</option>
+                    </select>
+                </label> (애버라스 계열은 필요 경험치량 50% 증가)
+            </p>
+            <p class="proCalc">
+                <label>포켓몬 성격:
+                    <select name="expNature" id="expNature">
+                        <option selected>exp 획득량 감소</option>
+                        <option>exp 영향 없음</option>
+                        <option>exp 획득량 증가</option>
+                    </select>
+                </label> (exp 획득량 증감은 20%)
             </p>
             <p>
+                <label>현재 레벨:&nbsp;&nbsp;&nbsp;
+                    <input id="currentLevel" name="level" type= "number" min = "1" max = "49" step = "1" value = "1" autofocus>
+                </label> (1부터 49사이 숫자를 입력하세요)
+            </p>
+            <p class="proCalc">
                 <label>남은 경험치:
                     <input id="leftExp" name="leftExp" type= "number" min = "1" max = "9999" step = "1" value = "20">
-                </label>
+                </label> (현재 레벨에서 다음 레벨까지 남은 경험치량)
             </p>
             <p>
-                <label>목표 레벨 :
-                    <input id="targetLevel" name="targetLevel" type= "number" min = "2" max = "100" step = "1" value = "100">
-                </label> (2부터 100사이 숫자를 입력하세요)
+                <label>목표 레벨:&nbsp;&nbsp;&nbsp;
+                    <input id="targetLevel" name="targetLevel" type= "number" min = "2" max = "50" step = "1" value = "50">
+                </label> (2부터 50사이 숫자를 입력하세요)
             </p>
-            <input type="submit" id="calcButton" value="필요 경험치량 계산하기">
+            <button type="button" id="calcButton" onclick="calculator()">필요 경험치량 계산하기</button>
         </fieldset>
-        <span id="result">
-        </span>
+        </form>
+        <br><br>
+        <fieldset id= "resultOutput" style="visibility: hidden;">
+            <legend><strong>계산 결과:</strong></legend>
+            <p>목표 레벨까지 필요한</p>
+            <p>
+                <label><img src="growthincense.png" height="30"/>경험치량:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="resultExp" type= "number" min= "1" max = "9999999" value= "0" readonly>
+                </label> 
+            </p>
+            <p>
+                <label><img src="pikachucandy.png" height="30"/>사탕 개수:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="resultCandy" type= "number" min= "1" max = "9999999" value= "0" readonly>
+                </label> 
+            </p>
+            <p>
+                <label><img src="dreamshard.png" height="30"/>꿈의 조각 개수:
+                    <input id="resultShard" type= "number" min= "1" max = "9999999" value= "0" readonly>
+                </label> 
+            </p>
+        </fieldset>
+        ver 1.0.0
         <script src="script.js"></script>
     </body>
 </html>

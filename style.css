@@ -1,3 +1,6 @@
 body {padding-left: 5%;
       padding-right: 5%;}
+#chooseVer {background-color: antiquewhite;}
 #userInput {background-color: bisque;}
+#resultOutput {background-color: thistle;}
+.proCalc {display: none;}
