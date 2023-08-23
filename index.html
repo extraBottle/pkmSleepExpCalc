@@ -7,16 +7,19 @@
     </head>
     <body>
         <h1>포켓몬 슬립 exp 계산기</h1>
+        <p>
+        <h3>@@현재 레벨50까지 경험치만 계산 가능합니다@@</h3>
+        </p>
         <fieldset id= "userInput">
             <legend><strong>여기에 입력하세요:</strong></legend>
             <p>
                 <label>현재 레벨 :
-                    <input id="level" name="level" type= "number" min = "1" max = "99" step = "1" value = "1" autofocus>
+                    <input id="currentLevel" name="level" type= "number" min = "1" max = "99" step = "1" value = "1" autofocus>
                 </label> (1부터 99사이 숫자를 입력하세요)
             </p>
             <p>
                 <label>남은 경험치:
-                    <input id="leftExp" name="leftExp" type= "number" min = "1" max = "9999" step = "1" value = "123">
+                    <input id="leftExp" name="leftExp" type= "number" min = "1" max = "9999" step = "1" value = "20">
                 </label>
             </p>
             <p>
@@ -24,7 +27,10 @@
                     <input id="targetLevel" name="targetLevel" type= "number" min = "2" max = "100" step = "1" value = "100">
                 </label> (2부터 100사이 숫자를 입력하세요)
             </p>
-            <input type="submit" value="필요 경험치량 계산하기">
+            <input type="submit" id="calcButton" value="필요 경험치량 계산하기">
         </fieldset>
+        <span id="result">
+        </span>
+        <script src="script.js"></script>
     </body>
 </html>
