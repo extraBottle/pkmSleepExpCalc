@@ -1,9 +1,16 @@
-body {width: auto;}
 #chooseVer {background-color: antiquewhite;}
 #userInput {background-color: bisque;}
 #resultOutput {background-color: thistle;}
 .proCalc {display: none;}
+#flex-container {display: flex;}
 @media (min-width: 768px){
       body {padding-left: 5%;
             padding-right: 5%;}
+      #flex-container {flex-direction: row;}
+}
+@media (max-width: 768px){
+      body {width: auto;
+            font-size: 4vw;}
+      #flex-container {flex-direction: column;}
+      .explain {font-size: 3vw;}
 }
