@@ -1,8 +1,8 @@
 #flex-container {display: flex;}
+.proCalc#flex-container {display: none;}
 #chooseVer {background-color: antiquewhite;}
 #userInput {background-color: bisque;}
 #resultOutput {background-color: thistle;}
-.proCalc {display: none;}
 @media (min-width: 200px) and (max-width: 768px){
       body {width: auto;
       font-size: 4vw;}
@@ -11,6 +11,6 @@
 }
 @media (min-width: 768px){
       body {padding-left: 5%;
-            padding-right: 5%;}
+            width: 632px;}
       #flex-container {flex-direction: row;}
 }
