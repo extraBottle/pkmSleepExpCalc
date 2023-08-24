@@ -49,6 +49,19 @@ function calculator() {
     //라이트 계산기는 현재 남은 경험치량 고려 안함
     let checkIf600poke;
     let checkIfExpNature;
+    let errorMessage= "";
+    //사용자가 정보 오기입시 띄울 알림창 메시지
+    let noInputError = true;
+    //사용자가 정보 오기입 했는지 확인
+
+    if(current < 1 || current > 49){
+        errorMessage += "-현재 레벨은 1부터 49 사이만 가능합니다.\n";
+        noInputError = false;
+    };
+    if(goal < 2 || goal > 50){
+        errorMessage += "-목표 레벨은 2부터 50 사이만 가능합니다.\n";
+        noInputError = false;
+    };
 
     if(proOn.checked){
         left= parseInt(document.getElementById('leftExp').value);
@@ -58,47 +71,63 @@ function calculator() {
         checkIfExpNature= document.getElementById("expNature").value;
         //경험치 증감 성격 확인
     };
-    
-    if(checkIfExpNature === "exp 획득량 감소"){
-        candy= candy * 0.8;
-    }else if(checkIfExpNature === "exp 획득량 증가"){
-        candy = candy * 1.2;
-    };
-    let totalExpRequired= left;
-    //현재 레벨에서 목표레벨까지 필요한 경험치량
-    let leftoverCandyExp= candy - left % candy;
-    //사탕으로 렙업할 때 렙업하고도 초과하는 경험치량
-    let totalShardsRequired= Math.ceil(left / candy) * shardPerLevel[current - 1];
-    //현재 레벨에서 목표레벨까지 필요한 꿈의 조각 개수
 
     if(checkIf600poke === "애버라스 계열"){
-        for(let z= 0; z < (goal - current - 1); z++){
-            totalExpRequired += expPerLevel[z + current] * 1.5;
-            totalShardsRequired += Math.ceil((expPerLevel[z + current] * 1.5 - leftoverCandyExp) / candy) * shardPerLevel[z + current];
-            if((expPerLevel[z + current] * 1.5 - leftoverCandyExp) % candy === 0){
-                leftoverCandyExp= 0;
-            }else{
-                leftoverCandyExp= candy - (expPerLevel[z + current] * 1.5 - leftoverCandyExp) % candy;
-            };
+        if(left > expPerLevel[current - 1] * 1.5){
+            errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
+            noInputError = false;
         };
     }else{
-        for(let z= 0; z < (goal - current - 1); z++){
-            totalExpRequired += expPerLevel[z + current];
-            totalShardsRequired += Math.ceil((expPerLevel[z + current] - leftoverCandyExp) / candy) * shardPerLevel[z + current];
-            if((expPerLevel[z + current] - leftoverCandyExp) % candy === 0){
-                leftoverCandyExp= 0;
-            }else{
-                leftoverCandyExp= candy - (expPerLevel[z + current] - leftoverCandyExp) % candy;
-            };
+        if(left > expPerLevel[current - 1]){
+            errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
+            noInputError = false;
         };
     };
-    let totalCandyRequired= Math.ceil(totalExpRequired / candy);
-    //현재 레벨에서 목표레벨까지 필요한 사탕 개수
 
-    document.getElementById('resultExp').value= totalExpRequired;
-    document.getElementById('resultCandy').value= totalCandyRequired;
-    document.getElementById('resultShard').value= totalShardsRequired;
-    document.getElementById('resultOutput').style.visibility = "visible";
+    if(noInputError){
+        if(checkIfExpNature === "exp 획득량 감소"){
+            candy= candy * 0.8;
+        }else if(checkIfExpNature === "exp 획득량 증가"){
+            candy = candy * 1.2;
+        };
+        let totalExpRequired= left;
+        //현재 레벨에서 목표레벨까지 필요한 경험치량
+        let leftoverCandyExp= candy - left % candy;
+        //사탕으로 렙업할 때 렙업하고도 초과하는 경험치량
+        let totalShardsRequired= Math.ceil(left / candy) * shardPerLevel[current - 1];
+        //현재 레벨에서 목표레벨까지 필요한 꿈의 조각 개수
+    
+        if(checkIf600poke === "애버라스 계열"){
+            for(let z= 0; z < (goal - current - 1); z++){
+                totalExpRequired += expPerLevel[z + current] * 1.5;
+                totalShardsRequired += Math.ceil((expPerLevel[z + current] * 1.5 - leftoverCandyExp) / candy) * shardPerLevel[z + current];
+                if((expPerLevel[z + current] * 1.5 - leftoverCandyExp) % candy === 0){
+                    leftoverCandyExp= 0;
+                }else{
+                    leftoverCandyExp= candy - (expPerLevel[z + current] * 1.5 - leftoverCandyExp) % candy;
+                };
+            };
+        }else{
+            for(let z= 0; z < (goal - current - 1); z++){
+                totalExpRequired += expPerLevel[z + current];
+                totalShardsRequired += Math.ceil((expPerLevel[z + current] - leftoverCandyExp) / candy) * shardPerLevel[z + current];
+                if((expPerLevel[z + current] - leftoverCandyExp) % candy === 0){
+                    leftoverCandyExp= 0;
+                }else{
+                    leftoverCandyExp= candy - (expPerLevel[z + current] - leftoverCandyExp) % candy;
+                };
+            };
+        };
+        let totalCandyRequired= Math.ceil(totalExpRequired / candy);
+        //현재 레벨에서 목표레벨까지 필요한 사탕 개수
+    
+        document.getElementById('resultExp').value= totalExpRequired;
+        document.getElementById('resultCandy').value= totalCandyRequired;
+        document.getElementById('resultShard').value= totalShardsRequired;
+        document.getElementById('resultOutput').style.visibility = "visible";
+    }else{
+        alert(errorMessage);
+    };
 };
 
 
