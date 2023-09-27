@@ -31,3 +31,6 @@ v1.0.5
 - exp 증감에 따른 사탕 경험치량 수정
 - connect google analytics 
 - readme 형식 수정
+
+v1.1.1
+- google analytics tag 수정
