@@ -9,7 +9,7 @@ let shardPerLevel= [14, 18, 22, 27, 30, 34, 39, 44, 48, 50, 52, 53,
 117, 122, 126, 130, 136, 143, 151, 160, 167, 174, 184, 192, 201,
 211, 221, 227, 236, 250, 264, 279, 295, 309];
 //특정 레벨에서 사탕 하나 당 필요한 꿈의 조각 개수
-let gesangee= "v1.0.5<br>@두번째유리병";
+let gesangee= "v1.1.0<br>@두번째유리병";
 //계산기 웹사이트 현재 버전
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -86,7 +86,7 @@ function calculator() {
 
     if(noInputError){
         if(checkIfExpNature === "exp 획득량 감소"){
-            candy= candy * 0.8;
+            candy= 21;
         }else if(checkIfExpNature === "exp 획득량 증가"){
             candy = candy * 1.2;
         };
