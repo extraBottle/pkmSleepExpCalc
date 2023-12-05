@@ -20,6 +20,16 @@
         <p>
         <h4>@@현재 <span style="color: brown;">레벨50까지</span> 경험치만 계산 가능합니다@@</h4>
         </p>
+        <fieldset id="chooseBoost">
+            <legend><strong>사탕 부스트:</strong></legend>
+            <p><label class="switch">
+                <input type="checkbox" id="candyBoost">
+                <span class="slider"></span>
+              </label><br>
+              <span class="explain">(사탕 효율 200%, 꿈의조각 소모량 600%)</span>
+            </p>
+        </fieldset>
+        <br>
         <fieldset id="chooseVer">
             <legend><strong>계산기 버전:</strong></legend>
             <p><input name="version" id="lightVer" type="radio" value="light" checked>
@@ -27,10 +37,11 @@
                 <input name="version" id="proVer" type="radio" value="pro">
                 <label for="proVer">프로</label></p>
         </fieldset>
-        <br><br>
+        <br>
         <form>
         <fieldset id= "userInput">
             <legend><strong>여기에 입력하세요:</strong></legend>
+            <div id="candycandy">@@현재 사탕 부스트 적용중!@@</div>
             <p><div class="proCalc" id="flex-container">
                 <label>포켓몬 종류:
                     <select name="600poke" id="600poke">

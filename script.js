@@ -9,18 +9,27 @@ let shardPerLevel= [14, 18, 22, 27, 30, 34, 39, 44, 48, 50, 52, 53,
 117, 122, 126, 130, 136, 143, 151, 160, 167, 174, 184, 192, 201,
 211, 221, 227, 236, 250, 264, 279, 295, 309];
 //특정 레벨에서 사탕 하나 당 필요한 꿈의 조각 개수
-let gesangee= "v1.1.1<br>@두번째유리병";
+let gesangee= "v1.2.0<br>@두번째유리병";
 //계산기 웹사이트 현재 버전
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("calcVer").innerHTML= gesangee;
 });
 
+let boostOn= document.getElementById("candyBoost");
+//사탕 부스트 선택했는지 확인
 let proOn= document.getElementById("proVer");
 //프로 버전 계산기 선택했는지 확인
 let lightOn= document.getElementById("lightVer");
 //라이트 버전 계산기 선택했는지 확인
 
+boostOn.addEventListener("change", () => {
+    if(boostOn.checked){
+        document.getElementById("candycandy").style.display= "block";
+    }else{
+        document.getElementById("candycandy").style.display= "none";
+    }
+});
 proOn.addEventListener("change", () => {
     if(proOn.checked){
         for(let ele of document.getElementsByClassName("proCalc")){
@@ -90,6 +99,9 @@ function calculator() {
         }else if(checkIfExpNature === "exp 획득량 증가"){
             candy = candy * 1.2;
         };
+        if(boostOn.checked){
+            candy *= 2;
+        };
         let totalExpRequired= left;
         //현재 레벨에서 목표레벨까지 필요한 경험치량
         let leftoverCandyExp= candy - left % candy;
@@ -120,6 +132,9 @@ function calculator() {
         };
         let totalCandyRequired= Math.ceil(totalExpRequired / candy);
         //현재 레벨에서 목표레벨까지 필요한 사탕 개수
+        if(boostOn.checked){
+            totalShardsRequired *= 6;
+        };
     
         document.getElementById('resultExp').value= totalExpRequired;
         document.getElementById('resultCandy').value= totalCandyRequired;
