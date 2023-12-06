@@ -9,7 +9,7 @@ let shardPerLevel= [14, 18, 22, 27, 30, 34, 39, 44, 48, 50, 52, 53,
 117, 122, 126, 130, 136, 143, 151, 160, 167, 174, 184, 192, 201,
 211, 221, 227, 236, 250, 264, 279, 295, 309];
 //특정 레벨에서 사탕 하나 당 필요한 꿈의 조각 개수
-let gesangee= "v1.2.1<br>@두번째유리병";
+let gesangee= "v1.2.2<br>@두번째유리병";
 //계산기 웹사이트 현재 버전
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -82,7 +82,7 @@ function calculator() {
     };
 
     if(checkIf600poke === "애버라스 계열"){
-        if(left > expPerLevel[current - 1] * 1.5){
+        if(left > Math.round(expPerLevel[current - 1] * 1.5)){
             errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
             noInputError = false;
         };
@@ -106,17 +106,20 @@ function calculator() {
         //현재 레벨에서 목표레벨까지 필요한 경험치량
         let leftoverCandyExp= candy - left % candy;
         //사탕으로 렙업할 때 렙업하고도 초과하는 경험치량
+        if(left % candy === 0){
+            leftoverCandyExp= 0;
+        };
         let totalShardsRequired= Math.ceil(left / candy) * shardPerLevel[current - 1];
         //현재 레벨에서 목표레벨까지 필요한 꿈의 조각 개수
     
         if(checkIf600poke === "애버라스 계열"){
             for(let z= 0; z < (goal - current - 1); z++){
-                totalExpRequired += expPerLevel[z + current] * 1.5;
-                totalShardsRequired += Math.ceil((expPerLevel[z + current] * 1.5 - leftoverCandyExp) / candy) * shardPerLevel[z + current];
-                if((expPerLevel[z + current] * 1.5 - leftoverCandyExp) % candy === 0){
+                totalExpRequired += Math.round(expPerLevel[z + current] * 1.5);
+                totalShardsRequired += Math.ceil((Math.round(expPerLevel[z + current] * 1.5) - leftoverCandyExp) / candy) * shardPerLevel[z + current];
+                if((Math.round(expPerLevel[z + current] * 1.5) - leftoverCandyExp) % candy === 0){
                     leftoverCandyExp= 0;
                 }else{
-                    leftoverCandyExp= candy - (expPerLevel[z + current] * 1.5 - leftoverCandyExp) % candy;
+                    leftoverCandyExp= candy - (Math.round(expPerLevel[z + current] * 1.5) - leftoverCandyExp) % candy;
                 };
             };
         }else{
@@ -130,6 +133,7 @@ function calculator() {
                 };
             };
         };
+
         let totalCandyRequired= Math.ceil(totalExpRequired / candy);
         //현재 레벨에서 목표레벨까지 필요한 사탕 개수
         if(boostOn.checked){
