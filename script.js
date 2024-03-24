@@ -2,18 +2,26 @@ let expPerLevel= [54, 71, 108, 128, 164, 202, 244, 274,
 315, 345,  376, 407, 419, 429, 440, 454, 469, 483, 497, 515,
 537, 558, 579, 600, 622, 643, 665, 686, 708, 729, 748, 766, 785,
 803, 821, 839, 857, 875, 893, 910, 928, 945, 963, 980, 997, 1015,
-1032, 1049, 1066];
+1032, 1049, 1066, 1362, 1562, 1747, 1946, 2195];
 //레벨 당 경험치량
 let shardPerLevel= [14, 18, 22, 27, 30, 34, 39, 44, 48, 50, 52, 53,
 56, 59, 62, 66, 68, 71, 74, 78, 81, 85, 88, 92, 95, 100, 105, 111,
 117, 122, 126, 130, 136, 143, 151, 160, 167, 174, 184, 192, 201,
-211, 221, 227, 236, 250, 264, 279, 295, 309];
+211, 221, 227, 236, 250, 264, 279, 295, 309, 323, 338, 356, 372, 391];
 //특정 레벨에서 사탕 하나 당 필요한 꿈의 조각 개수
-let gesangee= "v1.2.2<br>@두번째유리병";
+let gesangee= "v1.3.0<br>@두번째유리병";
 //계산기 웹사이트 현재 버전
+
+let maxLevel = 55;
+// 현재 최고 레벨
+let minLevel = 1;
+// 최소 레벨
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("calcVer").innerHTML= gesangee;
+    document.getElementById("maxLevelGuide").innerHTML= `레벨 ${maxLevel}까지`;
+    document.getElementById("maxInputCurrent").innerHTML= maxLevel - 1;
+    document.getElementById("maxInputGoal").innerHTML= maxLevel;
 });
 
 let boostOn= document.getElementById("candyBoost");
@@ -29,6 +37,8 @@ boostOn.addEventListener("change", () => {
     }else{
         document.getElementById("candycandy").style.display= "none";
     }
+    document.getElementById("candyEff").disabled = !document.getElementById("candyEff").disabled;
+    document.getElementById("dreamEff").disabled = !document.getElementById("dreamEff").disabled;
 });
 proOn.addEventListener("change", () => {
     if(proOn.checked){
@@ -56,6 +66,10 @@ function calculator() {
     let left= expPerLevel[current - 1];
     //포켓몬의 다음 레벨까지 남은 경험치량
     //라이트 계산기는 현재 남은 경험치량 고려 안함
+    let candyEfficiency= document.getElementById("candyEff").value;
+    //사탕 효율 선택
+    let shardEfficieny= document.getElementById("dreamEff").value;
+    //꿈의조각 소모량 선택
     let checkIf600poke;
     let checkIfExpNature;
     let errorMessage= "";
@@ -63,12 +77,12 @@ function calculator() {
     let noInputError = true;
     //사용자가 정보 오기입 했는지 확인
 
-    if(current < 1 || current > 49){
-        errorMessage += "-현재 레벨은 1부터 49 사이만 가능합니다.\n";
+    if(current < minLevel || current > maxLevel){
+        errorMessage += `-현재 레벨은 1부터 ${maxLevel - 1} 사이만 가능합니다.\n`;
         noInputError = false;
     };
-    if(goal < 2 || goal > 50){
-        errorMessage += "-목표 레벨은 2부터 50 사이만 가능합니다.\n";
+    if(goal < minLevel + 1 || goal > maxLevel){
+        errorMessage += `-목표 레벨은 2부터 ${maxLevel} 사이만 가능합니다.\n`;
         noInputError = false;
     };
 
@@ -100,7 +114,7 @@ function calculator() {
             candy = candy * 1.2;
         };
         if(boostOn.checked){
-            candy *= 2;
+            candy *= Number(candyEfficiency.slice(0, -1));
         };
         let totalExpRequired= left;
         //현재 레벨에서 목표레벨까지 필요한 경험치량
@@ -137,7 +151,7 @@ function calculator() {
         let totalCandyRequired= Math.ceil(totalExpRequired / candy);
         //현재 레벨에서 목표레벨까지 필요한 사탕 개수
         if(boostOn.checked){
-            totalShardsRequired *= 6;
+            totalShardsRequired *= Number(shardEfficieny.slice(0, -1));
         };
     
         document.getElementById('resultExp').value= totalExpRequired;

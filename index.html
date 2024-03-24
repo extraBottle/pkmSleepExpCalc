@@ -18,16 +18,30 @@
     <body>
         <h1>포켓몬 슬립 exp 계산기</h1>
         <p>
-        <h4>@@현재 <span style="color: brown;">레벨50까지</span> 경험치만 계산 가능합니다@@</h4>
+        <h4>@@현재 <span id= "maxLevelGuide" style="color: brown;"></span> 경험치만 계산 가능합니다@@</h4>
         </p>
         <fieldset id="chooseBoost">
             <legend><strong>사탕 부스트:</strong></legend>
-            <p><label class="switch">
+            <br>
+            <label class="switch">
                 <input type="checkbox" id="candyBoost">
                 <span class="slider"></span>
-              </label><br>
-              <span class="explain">(사탕 효율 200%, 꿈의조각 소모량 600%)</span>
-            </p>
+            </label>
+            <p><div id="flex-container">
+                <label>사탕 효율:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <select name="candyEff" id="candyEff" disabled='disabled'>
+                        <option selected>2배</option>
+                    </select>
+                </label>
+            </div></p>
+            <p><div id="flex-container">
+                <label>꿈의조각 소모량:
+                    <select name="dreamEff" id="dreamEff" disabled='disabled'>
+                        <option selected>4배</option>
+                        <option>6배</option>
+                    </select>
+                </label>
+            </div></p>
         </fieldset>
         <br>
         <fieldset id="chooseVer">
@@ -62,7 +76,7 @@
             <p><div id="flex-container">
                 <label>현재 레벨:&nbsp;&nbsp;&nbsp;
                     <input id="currentLevel" name="level" type= "number" min = "1" max = "49" step = "1" value = "1" autofocus>
-                </label><div class="explain">(1부터 49사이 숫자를 입력하세요)</div>
+                </label><div class="explain">(1부터 <span id="maxInputCurrent"></span>사이 숫자를 입력하세요)</div>
             </div></p>
             <p><div class="proCalc" id="flex-container">
                 <label>남은 경험치:
@@ -72,7 +86,7 @@
             <p><div id="flex-container">
                 <label>목표 레벨:&nbsp;&nbsp;&nbsp;
                     <input id="targetLevel" name="targetLevel" type= "number" min = "2" max = "50" step = "1" value = "50">
-                </label><div class="explain">(2부터 50사이 숫자를 입력하세요)</div>
+                </label><div class="explain">(2부터 <span id="maxInputGoal"></span>사이 숫자를 입력하세요)</div>
             </div></p>
             <button type="button" id="calcButton" onclick="calculator()">필요 경험치량 계산하기</button>
         </fieldset>
