@@ -9,7 +9,7 @@ let shardPerLevel= [14, 18, 22, 27, 30, 34, 39, 44, 48, 50, 52, 53,
 117, 122, 126, 130, 136, 143, 151, 160, 167, 174, 184, 192, 201,
 211, 221, 227, 236, 250, 264, 279, 295, 309, 323, 338, 356, 372, 391];
 //특정 레벨에서 사탕 하나 당 필요한 꿈의 조각 개수
-let gesangee= "v1.3.1<br>@두번째유리병";
+let gesangee= "v1.3.2<br>@두번째유리병";
 //계산기 웹사이트 현재 버전
 
 let maxLevel = 55;
@@ -115,18 +115,17 @@ function calculator() {
         //포켓몬 종류 확인
         checkIfExpNature= document.getElementById("expNature").value;
         //경험치 증감 성격 확인
-    };
-
-    //포켓몬 남은 경험치량 제대로 기입했는지 확인
-    if(checkPkmSpecies === "일반"){
-        if(left > expPerLevel[current - 1]){
-            errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
-            noInputError = false;
-        };
-    }else{
-        if(left > Math.round(expPerLevel[current - 1] * pkmSpeciesObj[checkPkmSpecies])){
-            errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
-            noInputError = false;
+        //포켓몬 남은 경험치량 제대로 기입했는지 확인
+        if(checkPkmSpecies === "일반"){
+            if(left > expPerLevel[current - 1]){
+                errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
+                noInputError = false;
+            };
+        }else{
+            if(left > Math.round(expPerLevel[current - 1] * pkmSpeciesObj[checkPkmSpecies])){
+                errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
+                noInputError = false;
+            };
         };
     };
 
@@ -148,8 +147,8 @@ function calculator() {
         };
         let totalShardsRequired= Math.ceil(left / candy) * shardPerLevel[current - 1];
         //현재 레벨에서 목표레벨까지 필요한 꿈의 조각 개수
-    
-        if(checkPkmSpecies === "일반"){
+
+        if(checkPkmSpecies === "일반" || !proOn.checked){
             for(let z= 0; z < (goal - current - 1); z++){
                 totalExpRequired += expPerLevel[z + current];
                 totalShardsRequired += Math.ceil((expPerLevel[z + current] - leftoverCandyExp) / candy) * shardPerLevel[z + current];
@@ -176,7 +175,6 @@ function calculator() {
         if(boostOn.checked){
             totalShardsRequired *= Number(shardEfficieny.slice(0, -1));
         };
-    
         document.getElementById('resultExp').value= totalExpRequired;
         document.getElementById('resultCandy').value= totalCandyRequired;
         document.getElementById('resultShard').value= totalShardsRequired;
