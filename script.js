@@ -9,19 +9,41 @@ let shardPerLevel= [14, 18, 22, 27, 30, 34, 39, 44, 48, 50, 52, 53,
 117, 122, 126, 130, 136, 143, 151, 160, 167, 174, 184, 192, 201,
 211, 221, 227, 236, 250, 264, 279, 295, 309, 323, 338, 356, 372, 391];
 //특정 레벨에서 사탕 하나 당 필요한 꿈의 조각 개수
-let gesangee= "v1.3.0<br>@두번째유리병";
+let gesangee= "v1.3.1<br>@두번째유리병";
 //계산기 웹사이트 현재 버전
 
 let maxLevel = 55;
 // 현재 최고 레벨
 let minLevel = 1;
 // 최소 레벨
+const pkmSpeciesObj = {
+    "일반": 1.0,
+    "600족(1.5배)": 1.5,
+    "전설(1.8배)": 1.8
+};
+// 포켓몬 종류에 따른 exp 배율
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("calcVer").innerHTML= gesangee;
     document.getElementById("maxLevelGuide").innerHTML= `레벨 ${maxLevel}까지`;
     document.getElementById("maxInputCurrent").innerHTML= maxLevel - 1;
     document.getElementById("maxInputGoal").innerHTML= maxLevel;
+    // 현재 레벨 설정 제한
+    let limitCurrentLevel = document.getElementById("currentLevel");
+    limitCurrentLevel.min = minLevel;
+    limitCurrentLevel.max = maxLevel - 1;
+    // 목표 레벨 설정 제한
+    let limitTargetLevel = document.getElementById("targetLevel");
+    limitTargetLevel.min = minLevel + 1;
+    limitTargetLevel.max = maxLevel;
+    limitTargetLevel.value = maxLevel;
+    // 남은 경험치 최대치 제한
+    let limitLeftExp = document.getElementById("leftExp");
+    limitLeftExp.max = expPerLevel.slice(-1);
+    for(let key in pkmSpeciesObj){
+        // 포켓몬 종류 목록 불러오기
+        document.getElementById("pkmSpecies").innerHTML += `<option>${key}</option>`;
+    };
 });
 
 let boostOn= document.getElementById("candyBoost");
@@ -70,7 +92,7 @@ function calculator() {
     //사탕 효율 선택
     let shardEfficieny= document.getElementById("dreamEff").value;
     //꿈의조각 소모량 선택
-    let checkIf600poke;
+    let checkPkmSpecies;
     let checkIfExpNature;
     let errorMessage= "";
     //사용자가 정보 오기입시 띄울 알림창 메시지
@@ -89,19 +111,20 @@ function calculator() {
     if(proOn.checked){
         left= parseInt(document.getElementById('leftExp').value);
         //포켓몬의 다음 레벨까지 남은 경험치량
-        checkIf600poke= document.getElementById("600poke").value;
-        //600족 포켓몬인지 확인
+        checkPkmSpecies= document.getElementById("pkmSpecies").value;
+        //포켓몬 종류 확인
         checkIfExpNature= document.getElementById("expNature").value;
         //경험치 증감 성격 확인
     };
 
-    if(checkIf600poke === "애버라스 계열"){
-        if(left > Math.round(expPerLevel[current - 1] * 1.5)){
+    //포켓몬 남은 경험치량 제대로 기입했는지 확인
+    if(checkPkmSpecies === "일반"){
+        if(left > expPerLevel[current - 1]){
             errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
             noInputError = false;
         };
     }else{
-        if(left > expPerLevel[current - 1]){
+        if(left > Math.round(expPerLevel[current - 1] * pkmSpeciesObj[checkPkmSpecies])){
             errorMessage += "-남은 경험치량을 제대로 기입했는지 확인해주세요.\n";
             noInputError = false;
         };
@@ -126,17 +149,7 @@ function calculator() {
         let totalShardsRequired= Math.ceil(left / candy) * shardPerLevel[current - 1];
         //현재 레벨에서 목표레벨까지 필요한 꿈의 조각 개수
     
-        if(checkIf600poke === "애버라스 계열"){
-            for(let z= 0; z < (goal - current - 1); z++){
-                totalExpRequired += Math.round(expPerLevel[z + current] * 1.5);
-                totalShardsRequired += Math.ceil((Math.round(expPerLevel[z + current] * 1.5) - leftoverCandyExp) / candy) * shardPerLevel[z + current];
-                if((Math.round(expPerLevel[z + current] * 1.5) - leftoverCandyExp) % candy === 0){
-                    leftoverCandyExp= 0;
-                }else{
-                    leftoverCandyExp= candy - (Math.round(expPerLevel[z + current] * 1.5) - leftoverCandyExp) % candy;
-                };
-            };
-        }else{
+        if(checkPkmSpecies === "일반"){
             for(let z= 0; z < (goal - current - 1); z++){
                 totalExpRequired += expPerLevel[z + current];
                 totalShardsRequired += Math.ceil((expPerLevel[z + current] - leftoverCandyExp) / candy) * shardPerLevel[z + current];
@@ -144,6 +157,16 @@ function calculator() {
                     leftoverCandyExp= 0;
                 }else{
                     leftoverCandyExp= candy - (expPerLevel[z + current] - leftoverCandyExp) % candy;
+                };
+            };
+        }else{
+            for(let z= 0; z < (goal - current - 1); z++){
+                totalExpRequired += Math.round(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]);
+                totalShardsRequired += Math.ceil((Math.round(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]) - leftoverCandyExp) / candy) * shardPerLevel[z + current];
+                if((Math.round(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]) - leftoverCandyExp) % candy === 0){
+                    leftoverCandyExp= 0;
+                }else{
+                    leftoverCandyExp= candy - (Math.round(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]) - leftoverCandyExp) % candy;
                 };
             };
         };
