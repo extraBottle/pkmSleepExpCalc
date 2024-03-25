@@ -9,7 +9,7 @@ let shardPerLevel= [14, 18, 22, 27, 30, 34, 39, 44, 48, 50, 52, 53,
 117, 122, 126, 130, 136, 143, 151, 160, 167, 174, 184, 192, 201,
 211, 221, 227, 236, 250, 264, 279, 295, 309, 323, 338, 356, 372, 391];
 //특정 레벨에서 사탕 하나 당 필요한 꿈의 조각 개수
-let gesangee= "v1.3.2<br>@두번째유리병";
+let gesangee= "v1.3.3<br>@두번째유리병";
 //계산기 웹사이트 현재 버전
 
 let maxLevel = 55;
@@ -148,24 +148,26 @@ function calculator() {
         let totalShardsRequired= Math.ceil(left / candy) * shardPerLevel[current - 1];
         //현재 레벨에서 목표레벨까지 필요한 꿈의 조각 개수
 
-        if(checkPkmSpecies === "일반" || !proOn.checked){
+        if(checkPkmSpecies === "일반" || !proOn.checked){ 
             for(let z= 0; z < (goal - current - 1); z++){
-                totalExpRequired += expPerLevel[z + current];
-                totalShardsRequired += Math.ceil((expPerLevel[z + current] - leftoverCandyExp) / candy) * shardPerLevel[z + current];
-                if((expPerLevel[z + current] - leftoverCandyExp) % candy === 0){
+                let addExp = expPerLevel[z + current];
+                totalExpRequired += addExp;
+                totalShardsRequired += Math.ceil((addExp - leftoverCandyExp) / candy) * shardPerLevel[z + current];
+                if((addExp - leftoverCandyExp) % candy === 0){
                     leftoverCandyExp= 0;
                 }else{
-                    leftoverCandyExp= candy - (expPerLevel[z + current] - leftoverCandyExp) % candy;
+                    leftoverCandyExp= candy - (addExp - leftoverCandyExp) % candy;
                 };
             };
         }else{
             for(let z= 0; z < (goal - current - 1); z++){
-                totalExpRequired += Math.round(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]);
-                totalShardsRequired += Math.ceil((Math.round(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]) - leftoverCandyExp) / candy) * shardPerLevel[z + current];
-                if((Math.round(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]) - leftoverCandyExp) % candy === 0){
+                let addExp = Math.floor(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]);
+                totalExpRequired += addExp;
+                totalShardsRequired += Math.ceil((addExp - leftoverCandyExp) / candy) * shardPerLevel[z + current];
+                if((addExp - leftoverCandyExp) % candy === 0){
                     leftoverCandyExp= 0;
                 }else{
-                    leftoverCandyExp= candy - (Math.round(expPerLevel[z + current] * pkmSpeciesObj[checkPkmSpecies]) - leftoverCandyExp) % candy;
+                    leftoverCandyExp= candy - (addExp - leftoverCandyExp) % candy;
                 };
             };
         };
