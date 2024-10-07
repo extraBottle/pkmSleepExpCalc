@@ -6,6 +6,14 @@
 #chooseBoost {background-color: rgb(240, 254, 210);}
 #userInput {background-color: bisque;}
 #resultOutput {background-color: thistle;}
+#enterButton {
+  /* height: 100px;
+  width: 200px; */
+  padding: 14px 40px;
+  border-radius: 8px;
+  background-color: #edf2f2;
+  border: 2px solid #b8cccb;
+  }
 @media (min-width: 200px) and (max-width: 768px){
       body {width: auto;
       font-size: 4vw;}
